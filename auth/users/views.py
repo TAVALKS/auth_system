@@ -74,3 +74,14 @@ class GetInfo(APIView):
             {'user': info}
         )
         return response
+
+
+class GetTokenCall(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        response = Response(
+            {'OK':200}
+        )
+        return response
