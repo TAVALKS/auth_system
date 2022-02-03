@@ -10,14 +10,22 @@ from .serializers import verify_numberSerializer, UserSerializer
 from django.contrib.auth.models import User
 
 
-class RegisterView(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+class RegisterView(ObtainAuthToken):
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'email': user.email
+        })
+
 
 
 class ListUsers(APIView):
