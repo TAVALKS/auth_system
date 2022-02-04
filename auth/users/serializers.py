@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import verify_number
 from rest_framework.validators import UniqueValidator
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,10 +25,3 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-
-class verify_numberSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = verify_number
-        fields = ['url', 'calls_remaining', 'exp']

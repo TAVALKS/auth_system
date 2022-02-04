@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import verify_number
 
-class VerifyNumberSerializer(serializers.ModelSerializer):
+class verify_numberSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = User
-        fields = '__all__'
+        model = verify_number
+        fields = ['url', 'calls_remaining', 'exp']
