@@ -22,8 +22,8 @@ class MakeCall(models.Model):
     call_token = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'Данные о звонках'
-        verbose_name_plural = 'Данные о звоноках'
+        verbose_name = 'Данные запроса звонка'
+        verbose_name_plural = 'Данные запроса звонков'
 
     def __str__(self):
         return str(self.user)

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
 from .serializers import verify_numberSerializer
-from .models import verify_number
+from .models import verify_number, MakeCall
 from secrets import token_hex
 import requests
 
@@ -25,14 +25,16 @@ class GetInfo(APIView):
         return response
 
 
-class GetTokenCall(APIView):
+class GetCallToken(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
+        user = request.user
         token = token_hex()
         response = Response(
-            {'call_token':token}
+            {'call_token':token,
+             'user': user.username}
         )
         return response
 
