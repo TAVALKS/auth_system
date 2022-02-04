@@ -4,7 +4,6 @@ from rest_framework import authentication, permissions
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
 from .models import verify_number
 from .serializers import verify_numberSerializer, UserSerializer
 from django.contrib.auth.models import User
