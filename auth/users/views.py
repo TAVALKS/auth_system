@@ -8,10 +8,11 @@ from rest_framework.response import Response
 from .models import verify_number
 from .serializers import verify_numberSerializer, UserSerializer
 from django.contrib.auth.models import User
+from secrets import token_hex
 
 
 class RegisterView(ObtainAuthToken):
-
+    """View for registering"""
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -26,7 +27,6 @@ class RegisterView(ObtainAuthToken):
             'token': token.key,
             'email': user.email
         })
-
 
 
 class ListUsers(APIView):
@@ -47,8 +47,8 @@ class ListUsers(APIView):
         return Response(usernames)
 
 
-class CustomAuthToken(ObtainAuthToken):
 
+class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -62,6 +62,8 @@ class CustomAuthToken(ObtainAuthToken):
 
 
 class GetInfo(APIView):
+    """View for get info about a user information:
+       calls_remaining, exp, url"""
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -81,7 +83,8 @@ class GetTokenCall(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
+        token = token_hex()
         response = Response(
-            {'OK':200}
+            {'call_token':token}
         )
         return response
