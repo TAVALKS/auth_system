@@ -57,6 +57,9 @@ class VerifyNumber(APIView):
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
+            vn = verify_number.objects.get(user=user)
+            vn.calls_remaining -= 1
+            vn.save()
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
         requests.post(url='http://127.0.0.1:5000/verify',
