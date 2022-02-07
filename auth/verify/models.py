@@ -27,3 +27,16 @@ class MakeCall(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class calls(models.Model):
+    user = models.ForeignKey(User, verbose_name='компания', on_delete=models.CASCADE)
+    out_number = models.CharField(verbose_name='исходящий номер', max_length=15)
+    verify_number = models.CharField(verbose_name='проверочный номер', max_length=15)
+    call_date = models.DateTimeField(verbose_name='Дата и время вызова', default=datetime.datetime.now())
+    class Meta:
+        verbose_name = 'История вызовов'
+        verbose_name_plural = 'История вызовов'
+
+    def __str__(self):
+        return str(self.user)

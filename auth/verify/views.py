@@ -4,9 +4,10 @@ from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
 from .serializers import verify_numberSerializer
-from .models import verify_number, MakeCall
+from .models import verify_number, MakeCall, calls
 from secrets import token_hex
 import requests
+from datetime import datetime
 
 
 class GetInfo(APIView):
@@ -60,12 +61,14 @@ class VerifyNumber(APIView):
             vn = verify_number.objects.get(user=user)
             vn.calls_remaining -= 1
             vn.save()
+            c = calls(user=user, out_number=tel, verify_number='+7232',
+                      call_date=datetime.now())
+            c.save()
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
         requests.post(url='http://127.0.0.1:5000/verify',
                       json={'phone_number': tel})
         response = Response({
-            'token': token,
-            'tel': tel
+            'verify_code': '5521'
         })
         return response
