@@ -37,8 +37,8 @@ class UserCalls(models.Model):
     verify_number = models.CharField(verbose_name='проверочный номер', max_length=15)
     call_date = models.DateTimeField(verbose_name='Дата и время вызова', default=datetime.datetime.now())
     class Meta:
-        verbose_name = 'История вызовов'
-        verbose_name_plural = 'История вызовов'
+        verbose_name = 'История звонков'
+        verbose_name_plural = 'История звонков'
 
     def __str__(self):
         return str(self.user)

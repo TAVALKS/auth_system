@@ -1,9 +1,10 @@
+from re import A
 from rest_framework.response import Response
 from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
-from .serializers import UserInfoSerializer
+from .serializers import UserInfoSerializer, UserCallsSerializer
 from .models import UserInfo, MakeCall, UserCalls
 from secrets import token_hex
 import requests
@@ -23,6 +24,19 @@ class GetInfo(APIView):
             info = info[0]
         response = Response(
             {'user': info}
+        )
+        return response
+
+
+class GetCallsList(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = request.user
+        uc = UserCallsSerializer(UserCalls.objects.filter(user=user), many= True).data
+        response = Response(
+            {'calls': uc}
         )
         return response
 
