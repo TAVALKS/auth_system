@@ -73,16 +73,16 @@ class VerifyNumber(APIView):
         tel = '+7'+ request.data['tel']
         token = request.data['token']
         r = requests.post(url='http://127.0.0.1:5000/verify',
-                          json={'phone_number': tel})
-        verify_number = r.json()['verify_number']
-        code = verify_number
+                          json={'tel': tel})
+        sip = str(r.json()['sip'])
+        code = sip[-4:]
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
             ui = UserInfo.objects.get(user=user)
             ui.calls_remaining -= 1
             ui.save()
-            uc = UserCalls(user=user, out_number=tel, verify_number=verify_number,
+            uc = UserCalls(user=user, out_number=tel, verify_number=sip,
                            call_date=datetime.now())
             uc.save()
         except MakeCall.DoesNotExist:
