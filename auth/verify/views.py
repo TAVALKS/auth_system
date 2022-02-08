@@ -70,11 +70,12 @@ class GetCallToken(APIView):
 class VerifyNumber(APIView):
 
     def post(self, request):
-        tel = request.data['tel']
+        tel = '+7'+ request.data['tel']
         token = request.data['token']
         r = requests.post(url='http://127.0.0.1:5000/verify',
-                      json={'phone_number': tel})
+                          json={'phone_number': tel})
         verify_number = r.json()['verify_number']
+        code = verify_number
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
@@ -82,11 +83,9 @@ class VerifyNumber(APIView):
             ui.calls_remaining -= 1
             ui.save()
             uc = UserCalls(user=user, out_number=tel, verify_number=verify_number,
-                      call_date=datetime.now())
+                           call_date=datetime.now())
             uc.save()
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
-        response = Response({
-            'verify_number': verify_number
-        })
+        response = Response({'code': code})
         return response
