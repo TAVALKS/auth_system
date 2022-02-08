@@ -20,8 +20,11 @@ class GetInfo(APIView):
     def get(self, request, format=None):
         user = request.user
         info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
+        mc = MakeCall.objects.get(user=user)
+        call_token = mc.call_token
         if len(info) > 0:
             info = info[0]
+            info['call_token'] = call_token
         response = Response(
             {'user': info}
         )
