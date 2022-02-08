@@ -1,6 +1,6 @@
 from re import A
 from rest_framework.response import Response
-from django.http import HttpResponseNotFound
+from django.http import HttpRequest, HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
@@ -72,20 +72,21 @@ class VerifyNumber(APIView):
     def post(self, request):
         tel = request.data['tel']
         token = request.data['token']
+        r = requests.post(url='http://127.0.0.1:5000/verify',
+                      json={'phone_number': tel})
+        verify_number = r.json()['verify_number']
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
             ui = UserInfo.objects.get(user=user)
             ui.calls_remaining -= 1
             ui.save()
-            uc = UserCalls(user=user, out_number=tel, verify_number='+7232',
+            uc = UserCalls(user=user, out_number=tel, verify_number=verify_number,
                       call_date=datetime.now())
             uc.save()
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
-        requests.post(url='http://127.0.0.1:5000/verify',
-                      json={'phone_number': tel})
         response = Response({
-            'verify_code': '5521'
+            'verify_number': verify_number
         })
         return response
