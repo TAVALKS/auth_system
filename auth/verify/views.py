@@ -3,8 +3,8 @@ from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
-from .serializers import verify_numberSerializer
-from .models import verify_number, MakeCall, calls
+from .serializers import UserInfoSerializer
+from .models import UserInfo, MakeCall, UserCalls
 from secrets import token_hex
 import requests
 from datetime import datetime
@@ -18,7 +18,7 @@ class GetInfo(APIView):
 
     def get(self, request, format=None):
         user = request.user
-        info = verify_numberSerializer(verify_number.objects.filter(user=user), many = True).data
+        info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
         if len(info) > 0:
             info = info[0]
         response = Response(
@@ -58,12 +58,12 @@ class VerifyNumber(APIView):
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
-            vn = verify_number.objects.get(user=user)
-            vn.calls_remaining -= 1
-            vn.save()
-            c = calls(user=user, out_number=tel, verify_number='+7232',
+            ui = UserInfo.objects.get(user=user)
+            ui.calls_remaining -= 1
+            ui.save()
+            uc = UserCalls(user=user, out_number=tel, UserInfo='+7232',
                       call_date=datetime.now())
-            c.save()
+            uc.save()
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
         requests.post(url='http://127.0.0.1:5000/verify',

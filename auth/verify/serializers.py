@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import verify_number
+from .models import UserInfo
 
-class verify_numberSerializer(serializers.ModelSerializer):
+class UserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = verify_number
+        model = UserInfo
         fields = ['url', 'calls_remaining', 'exp']
