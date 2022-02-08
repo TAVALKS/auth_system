@@ -61,7 +61,7 @@ class VerifyNumber(APIView):
             ui = UserInfo.objects.get(user=user)
             ui.calls_remaining -= 1
             ui.save()
-            uc = UserCalls(user=user, out_number=tel, UserInfo='+7232',
+            uc = UserCalls(user=user, out_number=tel, verify_number='+7232',
                       call_date=datetime.now())
             uc.save()
         except MakeCall.DoesNotExist:

@@ -5,4 +5,4 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInfo
-        fields = ['url', 'calls_remaining', 'exp']
+        fields = ['url', 'calls_remaining', 'exp', 'balance', 'coast_call']

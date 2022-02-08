@@ -12,8 +12,8 @@ class UserInfo(models.Model):
     exp = models.DateField('звонки активны до:', default=datetime.date.today()+datetime.timedelta(days=180))
 
     class Meta:
-        verbose_name = 'Данные о звонках'
-        verbose_name_plural = 'Данные о звоноках'
+        verbose_name = 'Данные пользователя'
+        verbose_name_plural = 'Данные пользователей'
 
     def __str__(self):
         return str(self.user)
