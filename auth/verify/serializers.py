@@ -12,4 +12,4 @@ class UserCallsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserCalls
-        fields = ['user', 'out_number', 'verify_number', 'call_date']
+        fields = ['user', 'out_number', 'verify_number', 'call_date', 'coast']
