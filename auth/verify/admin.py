@@ -1,6 +1,5 @@
-from re import A
 from django.contrib import admin
-from .models import verify_number, MakeCall, calls
+from .models import UserInfo, MakeCall, UserCalls
 
 # Register your models here.
 class callsAdmin(admin.ModelAdmin):
@@ -8,6 +7,6 @@ class callsAdmin(admin.ModelAdmin):
     list_display = ('user', 'out_number', 'verify_number', 'call_date')
     list_filter = ['user']
 
-admin.site.register(verify_number)
+admin.site.register(UserInfo)
 admin.site.register(MakeCall)
-admin.site.register(calls, callsAdmin)
+admin.site.register(UserCalls, callsAdmin)
