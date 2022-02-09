@@ -72,7 +72,7 @@ ROOT_URLCONF = 'auth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'users/password'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,3 +148,5 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8081',
 )'''
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

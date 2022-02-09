@@ -1,6 +1,5 @@
-from re import A
 from rest_framework.response import Response
-from django.http import HttpRequest, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import authentication, permissions
