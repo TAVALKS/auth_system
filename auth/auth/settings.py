@@ -152,4 +152,10 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8081',
 )'''
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bot@chzmk.com'
+EMAIL_HOST_PASSWORD = '1234qwea'
+DEFAULT_FROM_EMAIL = 'bot@chzmk.com'
+EMAIL_USE_TLS = True

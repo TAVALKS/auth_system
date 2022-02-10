@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from rest_framework.views import APIView
 
-
 @authentication_classes([])
 @permission_classes([])
 class CustomPasswordResetView(APIView):
@@ -34,7 +33,7 @@ class CustomPasswordResetView(APIView):
                 }
                 email = render_to_string(email_template_name, c)
                 try:
-                    send_mail(subject, email, 'python@chzmk.com' , [user.email], fail_silently=False)
+                    send_mail(subject, email, 'bot@chzmk.com' , [user.email], fail_silently=False)
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
                 return HttpResponse(f'Письмо со ссылкой сброса пароля выслано на эл.почту: {user.email}')
