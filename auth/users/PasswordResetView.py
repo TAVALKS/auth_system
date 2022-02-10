@@ -2,7 +2,6 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
-from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail, BadHeaderError
@@ -10,6 +9,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from rest_framework.views import APIView
+
 
 @authentication_classes([])
 @permission_classes([])

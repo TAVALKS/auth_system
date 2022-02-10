@@ -15,6 +15,13 @@ class UserSerializer(serializers.ModelSerializer):
                         queryset=User.objects.all()
                     )
                 ]
+            },
+            'username':{
+                'validators': [
+                    UniqueValidator(
+                        queryset=User.objects.all()
+                    )
+                ]
             }
         }
 
