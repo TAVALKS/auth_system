@@ -18,8 +18,9 @@ class GetInfo(APIView):
 
     def get(self, request, format=None):
         user = request.user
-        if UserInfo.objects.filter(user=user).exists():
-            info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
+        uif = UserInfo.objects.filter(user=user)
+        if uif.exists():
+            info = UserInfoSerializer(uif, many = True).data
             info = info[0]
         else:
             info = {}
