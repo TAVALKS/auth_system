@@ -102,13 +102,14 @@ class SetUserInfo(APIView):
 
     def post(self, request, format=None):
         user = request.user
-        if UserInfo.objects.filter(user=user).exists():
-            ui = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
-            response = ui
+        url = request.data['url']
+        balance = request.data['balance']
+        uif =UserInfo.objects.filter(user=user)
+        if uif.exists():
+            uif.update(url=url, balance=balance)
+            response = 'Изменения сохранены'
             return Response(response)
         else:
-            url = request.data['url']
-            balance = request.data['balance']
             ui = UserInfo(user=user, url=url, balance=balance)
             ui.save()
             response = 'Данные внесены'
