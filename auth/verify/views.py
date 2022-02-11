@@ -18,17 +18,19 @@ class GetInfo(APIView):
 
     def get(self, request, format=None):
         user = request.user
-        info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
-        if len(info) > 0:
+        if UserInfo.objects.filter(user=user).exists():
+            info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
             info = info[0]
-            try:
-                mc = MakeCall.objects.get(user=user)
-                call_token = mc.call_token
-            except MakeCall.DoesNotExist:
-                call_token = token_hex()
-                mc = MakeCall(user=user, call_token=call_token)
-                mc.save()
-            info['call_token'] = call_token
+        else:
+            info = {}
+        if MakeCall.objects.filter(user=user).exists():
+            mc = MakeCall.objects.get(user=user)
+            call_token = mc.call_token
+        else:
+            call_token = token_hex()
+            mc = MakeCall(user=user, call_token=call_token)
+            mc.save()
+        info['call_token'] = call_token
         response = Response(
             {'user': info}
         )
@@ -104,7 +106,7 @@ class SetUserInfo(APIView):
         user = request.user
         url = request.data['url']
         balance = request.data['balance']
-        uif =UserInfo.objects.filter(user=user)
+        uif = UserInfo.objects.filter(user=user)
         if uif.exists():
             uif.update(url=url, balance=balance)
             response = 'Изменения сохранены'
