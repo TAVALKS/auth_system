@@ -6,7 +6,7 @@ import datetime
 class UserInfo(models.Model):
     user = models.ForeignKey(User, verbose_name='компания', on_delete=models.CASCADE, default=2)
     url = models.CharField(max_length=355)
-    calls_remaining = models.IntegerField(verbose_name='Количество оставшихся звонков')
+    calls_remaining = models.IntegerField(verbose_name='Количество оставшихся звонков', default=0)
     balance = models.FloatField(verbose_name='Остаток на балансе руб.', default=100)
     coast_call = models.FloatField(verbose_name='Стоимость звонка руб.', default=0.35)
     exp = models.DateField('звонки активны до:', default=datetime.date.today()+datetime.timedelta(days=180))

@@ -19,10 +19,15 @@ class GetInfo(APIView):
     def get(self, request, format=None):
         user = request.user
         info = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
-        mc = MakeCall.objects.get(user=user)
-        call_token = mc.call_token
         if len(info) > 0:
             info = info[0]
+            try:
+                mc = MakeCall.objects.get(user=user)
+                call_token = mc.call_token
+            except MakeCall.DoesNotExist:
+                call_token = token_hex()
+                mc = MakeCall(user=user, call_token=call_token)
+                mc.save()
             info['call_token'] = call_token
         response = Response(
             {'user': info}
@@ -68,9 +73,8 @@ class GetCallToken(APIView):
 @permission_classes([])
 class VerifyNumber(APIView):
 
-    def post(self, request):
+    def post(self, request, token):
         tel = '+7'+ request.data['tel']
-        token = request.data['token']
         host = '127.0.0.1'
         r = requests.post(url=f'http://{host}:5000/verify',
                           json={'tel': tel})
@@ -90,3 +94,22 @@ class VerifyNumber(APIView):
             return HttpResponseNotFound()
         response = Response({'code': code})
         return response
+
+
+class SetUserInfo(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        user = request.user
+        if UserInfo.objects.filter(user=user).exists():
+            ui = UserInfoSerializer(UserInfo.objects.filter(user=user), many = True).data
+            response = ui
+            return Response(response)
+        else:
+            url = request.data['url']
+            balance = request.data['balance']
+            ui = UserInfo(user=user, url=url, balance=balance)
+            ui.save()
+            response = 'Данные внесены'
+        return Response(response)
