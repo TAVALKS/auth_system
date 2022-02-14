@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import VerifyNumber, GetCallToken, GetInfo, GetCallsList, SetUserInfo
+from .views import (
+    VerifyNumber,
+    GetCallToken,
+    GetInfo,
+    GetCallsList,
+    SetUserInfo)
 
 urlpatterns = [
     path('info', GetInfo.as_view()),
