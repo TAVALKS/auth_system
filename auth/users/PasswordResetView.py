@@ -1,4 +1,6 @@
-from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.decorators import (
+    authentication_classes,
+    permission_classes)
 from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -23,19 +25,29 @@ class CustomPasswordResetView(APIView):
                 subject = "Password Reset Requested"
                 email_template_name = "password_reset_email.txt"
                 c = {
-                "email":user.email,
-                'domain':'verificatenumbercall.loca.lt',
-                'site_name': 'Website',
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "user": user,
-                'token': default_token_generator.make_token(user),
-                'protocol': 'https',
-                }
+                    "email": user.email,
+                    'domain': 'verificatenumbercall.loca.lt',
+                    'site_name': 'Website',
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    'token': default_token_generator.make_token(user),
+                    'protocol': 'https',
+                    }
                 email = render_to_string(email_template_name, c)
                 try:
-                    send_mail(subject, email, 'bot@chzmk.com' , [user.email], fail_silently=False)
+                    send_mail(
+                        subject, email,
+                        'bot@chzmk.com',
+                        [user.email],
+                        fail_silently=False)
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
-                return HttpResponse(f'Письмо со ссылкой сброса пароля выслано на эл.почту: {user.email}')
+                return HttpResponse(
+                    'Письмо со ссылкой сброса пароля' +
+                    'выслано на эл.почту:' +
+                    f'{user.email}')
         else:
-            return Response(f'Адрес электронной почты: {data} не зарегистрирован')
+            return Response(
+                'Адрес электронной почты:' +
+                f'{data}' +
+                'не зарегистрирован')
