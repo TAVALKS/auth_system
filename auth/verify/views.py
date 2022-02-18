@@ -1,7 +1,9 @@
 from rest_framework.response import Response
 from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
-from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.decorators import (
+    authentication_classes,
+    permission_classes)
 from rest_framework import authentication, permissions
 from .serializers import UserInfoSerializer, UserCallsSerializer
 from .models import UserInfo, MakeCall, UserCalls
@@ -20,7 +22,7 @@ class GetInfo(APIView):
         user = request.user
         uif = UserInfo.objects.filter(user=user)
         if uif.exists():
-            info = UserInfoSerializer(uif, many = True).data
+            info = UserInfoSerializer(uif, many=True).data
             info = info[0]
         else:
             info = {}
@@ -44,7 +46,8 @@ class GetCallsList(APIView):
 
     def get(self, request, format=None):
         user = request.user
-        uc = UserCallsSerializer(UserCalls.objects.filter(user=user), many= True).data
+        uc = UserCallsSerializer(
+            UserCalls.objects.filter(user=user), many=True).data
         response = Response(
             {'calls': uc}
         )
@@ -66,7 +69,7 @@ class GetCallToken(APIView):
             mc = MakeCall(user=user, call_token=token)
             mc.save()
         response = Response(
-            {'call_token':token,
+            {'call_token': token,
              'user': user.username}
         )
         return response
@@ -77,7 +80,7 @@ class GetCallToken(APIView):
 class VerifyNumber(APIView):
 
     def post(self, request, token):
-        tel = '+7'+ request.data['tel']
+        tel = '+7' + request.data['tel']
         host = '127.0.0.1'
         r = requests.post(url=f'http://{host}:5000/verify',
                           json={'tel': tel})
