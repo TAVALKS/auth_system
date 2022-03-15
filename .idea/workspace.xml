@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c9f06c3-d0da-483a-ae0b-ac19a333e1e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/auth_system.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/auth/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/auth/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/verify/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth/verify/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/verify/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth/verify/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth/users/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth/verify/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth/verify/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

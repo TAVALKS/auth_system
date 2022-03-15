@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer
 from django.contrib.auth.models import User
 from secrets import token_hex
-
+from verify.models import UserInfo
 
 class RegisterView(ObtainAuthToken):
     """View for registering"""
@@ -21,6 +21,12 @@ class RegisterView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        balance = 30
+        url = 'введите ваш url'
+        uif = UserInfo.objects.filter(user=user)
+        if not uif.exists():
+            ui = UserInfo(user=user, url=url, balance=balance)
+            ui.save()
         return Response({
             'token': token.key,
             'email': user.email
