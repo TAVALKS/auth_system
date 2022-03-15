@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-nfw^&hd0860ldr2v+ftmdrq1dshb8@9x&(7@3!q3jp#b(04kx=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['verificatenumbercall.loca.lt',
+ALLOWED_HOSTS = ['api.svoybot.ru',
                 '127.0.0.1']
 
 

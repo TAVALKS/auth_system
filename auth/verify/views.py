@@ -79,7 +79,8 @@ class GetCallToken(APIView):
 @permission_classes([])
 class VerifyNumber(APIView):
 
-    def post(self, request, token):
+    def post(self, request):
+        token = request.data['token']
         tel = '+7' + request.data['tel']
         host = '127.0.0.1'
         r = requests.post(url=f'http://{host}:5000/verify',
