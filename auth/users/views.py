@@ -21,7 +21,7 @@ class RegisterView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        balance = 30
+        balance = 9
         url = 'введите ваш url'
         uif = UserInfo.objects.filter(user=user)
         if not uif.exists():

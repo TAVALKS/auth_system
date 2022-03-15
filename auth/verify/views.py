@@ -83,20 +83,24 @@ class VerifyNumber(APIView):
         token = request.data['token']
         tel = '+7' + request.data['tel']
         host = '127.0.0.1'
-        r = requests.post(url=f'http://{host}:5000/verify',
-                          json={'tel': tel})
-        sip = str(r.json()['sip'])
-        code = sip[-4:]
         try:
             mc = MakeCall.objects.get(call_token=token)
             user = mc.user
             ui = UserInfo.objects.get(user=user)
-            ui.calls_remaining -= 1
-            ui.balance = round(ui.balance - ui.coast_call, 2)
-            ui.save()
-            uc = UserCalls(user=user, out_number=tel, verify_number=sip,
-                           call_date=datetime.now(), coast=ui.coast_call)
-            uc.save()
+            if float(ui.balance) > 0:
+                r = requests.post(url=f'http://{host}:5000/verify',
+                                  json={'tel': tel})
+                sip = str(r.json()['sip'])
+                code = sip[-4:]
+                ui.calls_remaining -= 1
+                ui.balance = round(ui.balance - ui.coast_call, 2)
+                ui.save()
+                uc = UserCalls(user=user, out_number=tel, verify_number=sip,
+                               call_date=datetime.now(), coast=ui.coast_call)
+                uc.save()
+            else:
+                response = Response({'code': '-1'})
+                return response
         except MakeCall.DoesNotExist:
             return HttpResponseNotFound()
         response = Response({'code': code})
