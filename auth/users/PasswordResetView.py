@@ -26,7 +26,7 @@ class CustomPasswordResetView(APIView):
                 email_template_name = "password_reset_email.txt"
                 c = {
                     "email": user.email,
-                    'domain': 'verificatenumbercall.loca.lt',
+                    'domain': 'api.svoybot.ru',
                     'site_name': 'Website',
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                     "user": user,

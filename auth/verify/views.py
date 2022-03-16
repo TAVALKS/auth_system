@@ -10,6 +10,8 @@ from .models import UserInfo, MakeCall, UserCalls
 from secrets import token_hex
 import requests
 from datetime import datetime
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 
 class GetInfo(APIView):
@@ -46,10 +48,17 @@ class GetCallsList(APIView):
 
     def get(self, request, format=None):
         user = request.user
+        records_on_page = 25
+        page_number = request.GET.get('page')
         uc = UserCallsSerializer(
             UserCalls.objects.filter(user=user), many=True).data
-        response = Response(
-            {'calls': uc}
+        paginator = Paginator(uc, records_on_page)
+        page_obj = paginator.page(page_number)
+        total_page = paginator.num_pages
+        response = JsonResponse(
+            {'calls': list(page_obj),
+             'total_page': total_page}
+
         )
         return response
 
